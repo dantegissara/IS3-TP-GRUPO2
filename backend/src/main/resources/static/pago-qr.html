@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagar con QR - App Transporte</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white min-h-screen flex flex-col items-center justify-center p-6" style="background-image: url('imagenes/fondo.jpg'); background-size: cover; background-position: center;">
+<div class="backdrop-blur-md bg-black/80 border border-black/30 rounded-2xl p-8 w-full max-w-md shadow-2xl flex flex-col items-center gap-6">
+
+  <h1 class="text-xl font-bold mb-4">Pagar con QR</h1>
+
+  <div class="bg-gradient-to-r from-pink-500 to-purple-500 rounded-xl p-6 text-center w-full">
+    <p class="text-sm">Crédito disponible</p>
+    <p class="text-3xl font-bold mt-2">$10.000</p>
+  </div>
+
+  <div class="bg-white p-4 rounded-xl mt-6">
+    <img src="imagenes/qr.jpg" alt="Código QR" class="w-64 h-64 object-contain">
+  </div>
+
+  <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold p-4 rounded-lg w-full transition mt-6">
+    Confirmar pago
+  </button>
+
+  <p class="text-xs text-gray-400 mt-4">Simulación de pago - No es una operación real.</p>
+
+  <a href="index.html" class="text-pink-400 mt-4 hover:underline">Volver al inicio</a>
+
+</div>
+</body>
+</html>
