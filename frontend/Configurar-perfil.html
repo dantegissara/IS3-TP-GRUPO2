@@ -14,7 +14,7 @@
     <!-- Header -->
     <header class="relative w-full flex flex-col items-center mb-6">
       <!-- Botón volver -->
-      <a href="index.html" class="absolute left-4 top-1">
+      <a href="inicio.html" class="absolute left-4 top-1">
         <img src="icons/volver.png" alt="Volver" class="rounded-full w-8 h-8 object-cover">
       </a>
 
@@ -25,14 +25,14 @@
     <!-- Perfil -->
     <section class="flex flex-col items-center mb-6">
       <img src="imagenes/perfil.webp" alt="Foto de perfil" class="rounded-full w-20 h-20 object-cover mb-4">
-      <h2 class="text-lg font-semibold">Hola Jose</h2>
+      <h2 class="text-lg font-semibold">Hola <span id="nombreUsuario"></span></h2>
      
     </section>
 
     <!-- Datos de usuario -->
     <section class="flex flex-col gap-4 w-full max-w-md">
       <a href="datos-perfil.html" class="bg-gray-800 p-4 rounded-lg text-left">Cambiar datos de perfil</a>
-      <a href="#" class="bg-gray-800 p-4 rounded-lg text-left">Editar metodos de pago ¿lo dejo? </a>
+
       <a href="#" class="bg-gray-800 p-4 rounded-lg text-left">Recargas Automáticas</a>
       <a href="historial-viajes.html" class="bg-gray-800 p-4 rounded-lg text-left">Historial de viajes</a>
       <a href="gastos.html" class="bg-gray-800 p-4 rounded-lg text-left">Gastos</a>
@@ -40,6 +40,17 @@
     </section>
 
   </div>
+
+
+<script>
+  const user = localStorage.getItem('user');
+if (user) {
+  const span = document.getElementById('nombreUsuario');
+  if (span) {
+    span.textContent = user;
+  }
+}
+</script>
 
 </body>
 </html>

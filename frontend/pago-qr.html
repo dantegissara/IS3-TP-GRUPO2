@@ -13,7 +13,7 @@
 
   <div class="bg-gradient-to-r from-pink-500 to-purple-500 rounded-xl p-6 text-center w-full">
     <p class="text-sm">Crédito disponible</p>
-    <p class="text-3xl font-bold mt-2">$10.000</p>
+    <p class="text-3xl font-bold mt-2"> <span id="credito-actual"></p>
   </div>
 
   <div class="bg-white p-4 rounded-xl mt-6">
@@ -26,8 +26,25 @@
 
   <p class="text-xs text-gray-400 mt-4">Simulación de pago - No es una operación real.</p>
 
-  <a href="index.html" class="text-pink-400 mt-4 hover:underline">Volver al inicio</a>
+  <a href="inicio.html" class="text-pink-400 mt-4 hover:underline">Volver al inicio</a>
 
 </div>
+
+<script>
+  if (user) {
+    // Mostrar el nombre del usuario
+    const span = document.getElementById('nombreUsuario');
+    if (span) {
+      span.textContent = user;
+    }
+    
+    // Obtener crédito del usuario
+    credito = parseInt(localStorage.getItem(`credito_${user}`)) || 0;
+  }
+  
+  // Mostrar crédito
+  document.getElementById('credito-actual').textContent = `$${credito.toLocaleString()}`;
+</script>
+
 </body>
 </html>

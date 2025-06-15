@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio - App Transporte</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+   <script>
+      if (!localStorage.getItem("credito")) {
+    localStorage.setItem("credito", 10000);
+  }
+  </script>
+
+
+</head>
+<body class="bg-black text-white min-h-screen flex flex-col items-center justify-center p-6" style="background-image: url('imagenes/fondo.jpg'); background-size: cover; background-position: center;">
+<div class="backdrop-blur-md bg-black/80 border border-black/30 rounded-2xl p-8 w-full max-w-2xl shadow-2xl flex flex-col items-center gap-6">
+    
+  <!-- Header -->
+  <header class="flex items-center justify-between mb-6">
+    <div class="flex items-center gap-4">
+      <img src="imagenes/perfil.webp" alt="Foto de perfil" class="rounded-full w-16 h-16 object-cover">
+      <h1 class="text-xl font-semibold">Hola  <span id="nombreUsuario"></span> </h1>
+      
+      <a href="Configurar-perfil.html" class="ml-8">
+  <img src="icons/config.png" alt="Configuración" class="rounded-full w-4 h-4 object-cover">
+</a>
+    </div>
+  
+  </header>
+
+  <!-- Credito cargado -->
+  <section class="bg-gradient-to-r from-pink-500 to-purple-500 rounded-xl p-6 mb-6">
+    <p class="text-sm">Crédito cargado</p>
+    <p id="credito-actual" class="text-3xl font-bold mt-2">$0</p>
+    <div class="flex gap-4 mt-4">
+
+       <!-- botones del header -->
+      <a href="acreditacion.html" class="bg-blue-500 p-4 rounded-lg text-left">Acreditar saldo</a>
+      <a href="gastos.html" class="bg-gray-800 p-4 rounded-lg text-left">Gastos</a>
+     
+    </div>
+  </section>
+
+  <!-- Medios de pago -->
+  <section>
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg font-semibold">Medios de pago registrados</h2>
+ 
+      
+
+<!-- Sube -->
+    </div>
+<div class="flex flex-col gap-4">
+  <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <img src="icons/billetera.png" alt="Sube">
+      <span>Sube</span>
+    </div>
+    <a href="editar-metodopago.html">
+        <img src="icons/config.png" alt="Configuración" class="rounded-full w-5 h-5 object-cover">
+      </a>
+  </div>
+
+<!-- Mercado Pago -->
+
+  <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <img src="icons/billetera.png" alt="Mercado Pago">
+      <span>Mercado Pago</span>
+    </div>
+    <a href="editar-metodopago.html">
+        <img src="icons/config.png" alt="Configuración" class="rounded-full w-5 h-5 object-cover">
+      </a>
+  </div>
+
+
+  <!-- Uala -->
+  <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <img src="icons/billetera.png" alt="Uala">
+      <span>Uala</span>
+    </div>
+    <a href="editar-metodopago.html">
+        <img src="icons/config.png" alt="Configuración" class="rounded-full w-5 h-5 object-cover">
+      </a>
+  </div>
+
+
+ <!-- belo -->
+  <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <img src="icons/billetera.png" alt="Belo">
+      <span>Belo</span>
+    </div>
+    <a href="editar-metodopago.html">
+        <img src="icons/config.png" alt="Configuración" class="rounded-full w-5 h-5 object-cover">
+      </a>
+  </div>
+</div>
+
+    </div>
+  </section>
+
+<button id="logoutBtn">Cerrar sesión</button>
+
+
+
+<script type="module">
+  import { logout, requireLogin } from './js/auth.js';
+
+  // Asegurar que solo accedan usuarios logueados
+  requireLogin();
+
+  // Obtener usuario y crédito
+  const user = localStorage.getItem('user');
+  let credito = 0;
+  
+  if (user) {
+    // Mostrar el nombre del usuario
+    const span = document.getElementById('nombreUsuario');
+    if (span) {
+      span.textContent = user;
+    }
+    
+    // Obtener crédito del usuario
+    credito = parseInt(localStorage.getItem(`credito_${user}`)) || 0;
+  }
+  
+  // Mostrar crédito
+  document.getElementById('credito-actual').textContent = `$${credito.toLocaleString()}`;
+
+  // Cerrar sesión
+  const btn = document.getElementById('logoutBtn');
+  if (btn) btn.addEventListener('click', logout);
+</script>
+
+</body>
+</html>

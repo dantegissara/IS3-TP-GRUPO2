@@ -12,7 +12,7 @@
   <!-- Header -->
   <header class="flex items-center justify-between w-full mb-6">
     <h1 class="text-2xl font-semibold">Editar Información</h1>
-    <a href="index.html">
+    <a href="inicio.html">
       <img src="icons/volver.png" alt="Volver" class="rounded-full w-6 h-6 object-cover">
     </a>
   </header>
@@ -26,28 +26,25 @@
   <form id="formPerfil" action="#" method="POST" class="w-full flex flex-col gap-4">
     <div class="flex flex-col">
       <label for="nombre" class="mb-1 text-sm">Nombre completo</label>
-      <input type="text" id="nombre" name="nombre" value="Jose Perez" class="bg-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-pink-500">
+      <input type="text" id="nombre" name="nombre" " class="bg-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-pink-500">
     </div>
 
     <div class="flex flex-col">
       <label for="email" class="mb-1 text-sm">Email</label>
-      <input type="email" id="email" name="email" value="jose@email.com" class="bg-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-pink-500">
+      <input type="email" id="email" name="email"  class="bg-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-pink-500">
     </div>
 
     <div class="flex flex-col">
       <label for="telefono" class="mb-1 text-sm">Teléfono</label>
-      <input type="text" id="telefono" name="telefono" value="1234567890" class="bg-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-pink-500">
+      <input type="text" id="telefono" name="telefono"  class="bg-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-pink-500">
     </div>
 
     <div class="flex flex-col">
-      <label for="medio_pago" class="mb-1 text-sm">Medio de pago principal</label>
-      <input type="text" id="medio_pago" name="medio_pago" value="Mercado Pago" class="bg-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-pink-500">
-    </div>
-
-    <div class="flex flex-col">
-      <label for="saldo" class="mb-1 text-sm">Saldo actual</label>
-      <input type="text" id="saldo" name="saldo" value="10000" class="bg-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-pink-500">
-    </div>
+  <label for="password" class="mb-1 text-sm">Contraseña</label>
+  <input type="password" id="password" name="password" class="bg-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-pink-500">
+</div>
+    
+    
 
     <button type="submit" class="bg-pink-500 hover:bg-pink-600 rounded-lg p-4 mt-4 font-semibold transition">
       Guardar cambios
@@ -56,16 +53,66 @@
 
 </div>
 
-<script>
-  const form = document.getElementById('formPerfil');
-  const mensajeExito = document.getElementById('mensajeExito');
+<script type="module">
+  import { requireLogin } from './js/auth.js';
+  requireLogin();
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault(); // Evita que recargue la página
-    mensajeExito.classList.remove('hidden');
+  // 1. Obtener datos del usuario actual
+  const user = localStorage.getItem("user");
+  const users = JSON.parse(localStorage.getItem("usuarios")) || {};
+  
+  // 2. Cargar datos en los inputs (sin necesidad de DOMContentLoaded)
+  if (user && users[user]) {
+    const userData = users[user];
+    
+    // Rellenar formulario
+    document.getElementById("nombre").value = user;
+    document.getElementById("email").value = userData.email || "";
+    document.getElementById("telefono").value = userData.telefono || "";
+    
+    // No cargar la contraseña por seguridad
+    document.getElementById("password").value = "";
+    document.getElementById("password").placeholder = "Nueva contraseña (dejar en blanco para no cambiar)";
+  }
+
+  // 3. Manejar el envío del formulario
+  document.getElementById("formPerfil").addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const nuevoNombre = document.getElementById("nombre").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const telefono = document.getElementById("telefono").value.trim();
+    const nuevaPassword = document.getElementById("password").value.trim();
+
+    // Actualizar datos
+    const updatedUser = {
+      ...users[user],  // Mantener datos existentes
+      email,
+      telefono,
+      password: nuevaPassword || users[user].password  // Mantener contraseña anterior si no se cambió
+    };
+
+    // 4. Manejar cambio de nombre de usuario
+    if (nuevoNombre !== user) {
+      // Crear nuevo usuario y eliminar el anterior
+      users[nuevoNombre] = updatedUser;
+      delete users[user];
+      localStorage.setItem("user", nuevoNombre);
+    } else {
+      users[user] = updatedUser;
+    }
+
+    // 5. Guardar cambios
+    localStorage.setItem("usuarios", JSON.stringify(users));
+    
+    // Mostrar feedback
+    document.getElementById("mensajeExito").classList.remove("hidden");
     setTimeout(() => {
-      mensajeExito.classList.add('hidden');
-    }, 3000); // El mensaje desaparece después de 3 segundos
+      document.getElementById("mensajeExito").classList.add("hidden");
+      if (nuevoNombre !== user) {
+        window.location.reload();  // Recargar para actualizar el nombre
+      }
+    }, 3000);
   });
 </script>
 
